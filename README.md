@@ -8,3 +8,6 @@ The following variables need to be provide in file `terraform.tfvars` to create 
 vpc_cidr      = 
 subnet_number = 
 ```
+
+## Author
+Cheng-Wen (Eric) Hsu
