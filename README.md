@@ -5,6 +5,8 @@ This terraform setup include one vpc, three public subnet, three private subnet,
 ## Setup
 The following variables need to be provide in file `terraform.tfvars` to create the infra successfully
 ```tfvars
+vpc_name      = 
 vpc_cidr      = 
 subnet_number = 
+region        =
 ```
