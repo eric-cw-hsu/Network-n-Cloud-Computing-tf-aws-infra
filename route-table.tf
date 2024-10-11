@@ -2,7 +2,7 @@
 resource "aws_route_table" "csye6225-aws_route_table_public" {
   vpc_id = aws_vpc.csye6225.id
   tags = {
-    Name = "csye6225-public-route-table"
+    Name = "${var.vpc_name}-public-route-table"
   }
 }
 
@@ -18,7 +18,7 @@ resource "aws_route_table_association" "csye6225-aws_route_table_association_pub
 resource "aws_route_table" "csye6225-aws_route_table_private" {
   vpc_id = aws_vpc.csye6225.id
   tags = {
-    Name = "csye6225-private-route-table"
+    Name = "${var.vpc_name}-private-route-table"
   }
 }
 

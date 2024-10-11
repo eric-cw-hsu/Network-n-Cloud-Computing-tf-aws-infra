@@ -7,7 +7,7 @@ resource "aws_subnet" "csye6225-aws_subnet_public" {
   map_public_ip_on_launch = true
 
   tags = {
-    Name = "csye6225-public-subnet-${count.index}"
+    Name = "${var.vpc_name}-public-subnet-${count.index}"
   }
 }
 
@@ -20,6 +20,6 @@ resource "aws_subnet" "csye6225-aws_subnet_private" {
   map_public_ip_on_launch = false
 
   tags = {
-    Name = "csye6225-private-subnet-${count.index}"
+    Name = "${var.vpc_name}-private-subnet-${count.index}"
   }
 }
