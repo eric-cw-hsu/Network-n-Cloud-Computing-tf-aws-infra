@@ -1,0 +1,31 @@
+name: 'Terraform'
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  terraform:
+    name: 'Terraform'
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: 1.9.7
+
+    - name: Terraform Init
+      run: terraform init
+
+    # Checks that all Terraform configuration files adhere to a canonical format
+    - name: Terraform Format
+      run: terraform fmt -check -recursive
+
+    - name: Terraform Validate
+      run: terraform validate
