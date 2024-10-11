@@ -7,4 +7,5 @@ The following variables need to be provide in file `terraform.tfvars` to create 
 ```tfvars
 vpc_cidr      = 
 subnet_number = 
+region        =
 ```
