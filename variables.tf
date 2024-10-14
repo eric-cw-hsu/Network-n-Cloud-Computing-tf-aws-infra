@@ -13,7 +13,3 @@ variable "region" {
   description = "The region in which to create the VPC"
 }
 
-variable "vpc_name" {
-  type        = string
-  description = "The name of the VPC"
-}
