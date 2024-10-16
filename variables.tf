@@ -17,3 +17,13 @@ variable "vpc_name" {
   type        = string
   description = "The name of the VPC"
 }
+
+variable "ami_id" {
+  type        = string
+  description = "The ID of the AMI to use for the instances"
+}
+
+variable "instance_type" {
+  type        = string
+  description = "The type of instance to launch"
+}
