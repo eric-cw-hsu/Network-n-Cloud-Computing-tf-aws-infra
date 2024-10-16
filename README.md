@@ -9,4 +9,7 @@ vpc_name      =
 vpc_cidr      = 
 subnet_number = 
 region        =
+ami_id        =
+
+instance_type (optional) = 
 ```
