@@ -10,6 +10,8 @@ vpc_cidr      =
 subnet_number = 
 region        =
 ami_id        =
+database_password = 
 
 instance_type (optional) = 
+database_instance_class (optional) = 
 ```
