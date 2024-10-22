@@ -28,3 +28,14 @@ variable "instance_type" {
   description = "The type of instance to launch"
   default     = "t2.micro"
 }
+
+variable "database_instance_class" {
+  type        = string
+  description = "The instance class for the database"
+  default     = "db.t4g.micro"
+}
+
+variable "database_password" {
+  type        = string
+  description = "The password for the database"
+}

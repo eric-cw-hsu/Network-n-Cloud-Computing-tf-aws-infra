@@ -23,3 +23,12 @@ resource "aws_subnet" "csye6225-aws_subnet_private" {
     Name = "${var.vpc_name}-private-subnet-${count.index}"
   }
 }
+
+resource "aws_db_subnet_group" "csye6225-db_subnet_group" {
+  name       = "csye6225-db-subnet-group"
+  subnet_ids = aws_subnet.csye6225-aws_subnet_private[*].id
+
+  tags = {
+    Name = "csye6225-db-subnet-group"
+  }
+}
