@@ -29,10 +29,10 @@ resource "aws_security_group" "csye6225-webapp-security-group" {
   }
 
   egress {
-    description = "Allow postgresql outbound traffic"
-    from_port   = 5432
-    to_port     = 5432
-    protocol    = "tcp"
+    description = "Allow all outbound traffic"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
