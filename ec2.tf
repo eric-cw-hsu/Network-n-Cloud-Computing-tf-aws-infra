@@ -1,4 +1,4 @@
-resource "aws_instance" "my_ec2" {
+resource "aws_instance" "csye6225-webapp" {
   ami           = var.ami_id
   instance_type = "t2.micro"
   subnet_id     = aws_subnet.csye6225-aws_subnet_public[0].id
@@ -14,6 +14,8 @@ resource "aws_instance" "my_ec2" {
   }
 
   disable_api_termination = false
+
+  key_name = aws_key_pair.csye6225-demo-key-pair.key_name
 
   // setup configuration
   user_data = <<-EOF
@@ -37,6 +39,6 @@ resource "aws_instance" "my_ec2" {
               EOF
 
   tags = {
-    Name = "my-ec2-instance"
+    Name = "csye6225-webapp"
   }
 }
