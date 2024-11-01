@@ -29,3 +29,13 @@ output "ec2_private_key_pem" {
 
   sensitive = true
 }
+
+output "aws_s3_bucket_id" {
+  description = "The ID of the S3 bucket"
+  value       = aws_s3_bucket.csye6225-s3-bucket.id
+}
+
+output "aws_s3_bucket-kms-key-arn" {
+  description = "The ARN of the KMS key"
+  value       = aws_kms_key.csye6225-s3-bucket-kms-key.arn
+}
