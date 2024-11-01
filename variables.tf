@@ -39,3 +39,13 @@ variable "database_password" {
   type        = string
   description = "The password for the database"
 }
+
+variable "route53_zone_id" {
+  type        = string
+  description = "The ID of the Route 53 zone"
+}
+
+variable "domain_name" {
+  type        = string
+  description = "The domain name for the Route 53 record"
+}
