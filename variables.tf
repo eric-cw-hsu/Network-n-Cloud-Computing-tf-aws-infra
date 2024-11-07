@@ -6,6 +6,7 @@ variable "vpc_cidr" {
 variable "subnet_number" {
   type        = number
   description = "The number of subnets to create"
+  default     = 3
 }
 
 variable "region" {
@@ -29,6 +30,7 @@ variable "instance_type" {
   default     = "t2.micro"
 }
 
+// Database RDS variables
 variable "database_instance_class" {
   type        = string
   description = "The instance class for the database"
@@ -40,6 +42,20 @@ variable "database_password" {
   description = "The password for the database"
 }
 
+variable "database_max_connections" {
+  type        = number
+  description = "The maximum number of connections to the database"
+  default     = 100
+}
+
+variable "database_shared_buffers" {
+  type        = number
+  description = "The amount of memory to allocate for shared buffers"
+  default     = 32768
+}
+
+
+// Route 53 variables
 variable "route53_zone_id" {
   type        = string
   description = "The ID of the Route 53 zone"
@@ -48,4 +64,17 @@ variable "route53_zone_id" {
 variable "domain_name" {
   type        = string
   description = "The domain name for the Route 53 record"
+}
+
+// autoscaling group variables
+variable "autoscaling_low_threshold" {
+  type        = number
+  description = "The low threshold for the autoscaling group"
+  default     = 7
+}
+
+variable "autoscaling_high_threshold" {
+  type        = number
+  description = "The high threshold for the autoscaling group"
+  default     = 10
 }

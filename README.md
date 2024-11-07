@@ -13,5 +13,11 @@ ami_id        =
 database_password = 
 
 instance_type (optional) = 
+
 database_instance_class (optional) = 
+database_max_connections (optional) = 
+database_shared_buffers (optional) =
+
+autoscaling_low_threshold (optional) = 
+autoscaling_high_threshold (optional) = 
 ```
