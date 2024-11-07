@@ -5,7 +5,7 @@ resource "aws_db_parameter_group" "csye6225-postgresql_parameter_group" {
 
   parameter {
     name         = "max_connections"
-    value        = "200"
+    value        = var.database_max_connections
     apply_method = "pending-reboot"
   }
 
@@ -13,6 +13,18 @@ resource "aws_db_parameter_group" "csye6225-postgresql_parameter_group" {
     name         = "log_statement"
     value        = "all"
     apply_method = "immediate"
+  }
+
+  parameter {
+    name         = "autovacuum"
+    value        = "on"
+    apply_method = "immediate"
+  }
+
+  parameter {
+    name         = "shared_buffers"
+    value        = var.database_shared_buffers
+    apply_method = "pending-reboot"
   }
 }
 

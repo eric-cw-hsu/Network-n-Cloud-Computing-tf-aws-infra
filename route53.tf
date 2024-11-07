@@ -1,8 +1,11 @@
-resource "aws_route53_record" "web_app" {
+resource "aws_route53_record" "csye6225-webapp-lb-dns" {
   zone_id = var.route53_zone_id
   name    = var.domain_name
   type    = "A"
-  ttl     = 300
 
-  records = [aws_instance.csye6225-webapp.public_ip]
+  alias {
+    name                   = aws_lb.csye6225-webapp-lb.dns_name
+    zone_id                = aws_lb.csye6225-webapp-lb.zone_id
+    evaluate_target_health = true
+  }
 }
