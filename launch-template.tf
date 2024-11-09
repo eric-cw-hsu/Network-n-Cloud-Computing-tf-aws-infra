@@ -37,8 +37,8 @@ resource "aws_launch_template" "csye6225-webapp-launch-template" {
               echo "  username: ${aws_db_instance.csye6225-postgresql.username}" >> /tmp/config.yaml
               echo "  password: ${aws_db_instance.csye6225-postgresql.password}" >> /tmp/config.yaml
               echo "  name: ${aws_db_instance.csye6225-postgresql.db_name}" >> /tmp/config.yaml
-              echo "  max_open_connections: 16" >> /tmp/config.yaml
-              echo "  max_idle_connections: 8" >> /tmp/config.yaml
+              echo "  max_open_connections: 14" >> /tmp/config.yaml
+              echo "  max_idle_connections: 7" >> /tmp/config.yaml
               echo "" >> /tmp/config.yaml
               echo "server:" >> /tmp/config.yaml
               echo "  port: 8080" >> /tmp/config.yaml
@@ -46,11 +46,42 @@ resource "aws_launch_template" "csye6225-webapp-launch-template" {
               echo "aws:" >> /tmp/config.yaml
               echo "  region: ${var.region}" >> /tmp/config.yaml
               echo "  bucket_name: ${aws_s3_bucket.csye6225-s3-bucket.bucket}" >> /tmp/config.yaml
+              echo "  cloudwatch:" >> /tmp/config.yaml
+              echo "    push_interval: 30" >> /tmp/config.yaml
+              echo "    buffer_size: 500" >> /tmp/config.yaml
 
               sudo cp /tmp/config.yaml /opt/webapp/config.yaml
               sudo chown csye6225:csye6225 /opt/webapp/config.yaml
+
+              touch /tmp/config.yaml
+              echo "name: \"Webapp\"" > /tmp/config.yaml
+              echo "environment: \"production\"" >> /tmp/config.yaml
+              echo "" >> /tmp/config.yaml
+              echo "database:" >> /tmp/config.yaml
+              echo "  host: ${aws_db_instance.csye6225-postgresql.address}" >> /tmp/config.yaml
+              echo "  port: 5432" >> /tmp/config.yaml
+              echo "  username: ${aws_db_instance.csye6225-postgresql.username}" >> /tmp/config.yaml
+              echo "  password: ${aws_db_instance.csye6225-postgresql.password}" >> /tmp/config.yaml
+              echo "  name: ${aws_db_instance.csye6225-postgresql.db_name}" >> /tmp/config.yaml
+              echo "  max_open_connections: 4" >> /tmp/config.yaml
+              echo "  max_idle_connections: 2" >> /tmp/config.yaml
+              echo "" >> /tmp/config.yaml
+              echo "server:" >> /tmp/config.yaml
+              echo "  port: 8081" >> /tmp/config.yaml
+              echo "" >> /tmp/config.yaml
+              echo "aws:" >> /tmp/config.yaml
+              echo "  region: ${var.region}" >> /tmp/config.yaml
+              echo "  bucket_name: ${aws_s3_bucket.csye6225-s3-bucket.bucket}" >> /tmp/config.yaml
+              echo "  cloudwatch:" >> /tmp/config.yaml
+              echo "    push_interval: 30" >> /tmp/config.yaml
+              echo "    buffer_size: 500" >> /tmp/config.yaml
+
+              sudo cp /tmp/config.yaml /opt/bak-webapp/config.yaml
+              sudo chown csye6225:csye6225 /opt/bak-webapp/config.yaml
+
               sudo systemctl daemon-reload
               sudo systemctl restart app
+              sudo systemctl restart app-bak
 
               cat <<EOT >> /opt/aws/amazon-cloudwatch-agent/bin/config.json
               {
