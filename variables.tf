@@ -78,3 +78,15 @@ variable "autoscaling_high_threshold" {
   description = "The high threshold for the autoscaling group"
   default     = 10
 }
+
+variable "sendgrid_api_key" {
+  description = "SendGrid API Key"
+}
+
+variable "email_sender_address" {
+  description = "Email Sender Address"
+}
+
+variable "email_sender_name" {
+  description = "Email Sender Name"
+}
