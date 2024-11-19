@@ -124,3 +124,25 @@ resource "aws_iam_role_policy_attachment" "lambda_sns_rds_access" {
   role       = aws_iam_role.csye6225_lambda_exec_role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
+
+resource "aws_iam_policy" "sns_publish_policy" {
+  name = "sns_publish_policy"
+
+  policy = jsonencode({
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Effect" : "Allow",
+        "Action" : [
+          "sns:Publish"
+        ],
+        "Resource" : "*"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "attach_sns_publish_policy" {
+  role       = aws_iam_role.webapp_role.name
+  policy_arn = aws_iam_policy.sns_publish_policy.arn
+}
