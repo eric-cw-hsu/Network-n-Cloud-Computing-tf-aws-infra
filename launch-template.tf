@@ -43,9 +43,14 @@ resource "aws_launch_template" "csye6225-webapp-launch-template" {
               echo "server:" >> /tmp/config.yaml
               echo "  port: 8080" >> /tmp/config.yaml
               echo "" >> /tmp/config.yaml
+              echo "auth:" >> /tmp/config.yaml
+              echo "  verify_email_expiration_time: 60" >> /tmp/config.yaml
+              echo "  verification_email_topic_arn: ${aws_sns_topic.csye6225_user_signup_topic.arn}" >> /tmp/config.yaml
+              echo "" >> /tmp/config.yaml
               echo "aws:" >> /tmp/config.yaml
               echo "  region: ${var.region}" >> /tmp/config.yaml
-              echo "  bucket_name: ${aws_s3_bucket.csye6225-s3-bucket.bucket}" >> /tmp/config.yaml
+              echo "  s3:" >> /tmp/config.yaml
+              echo "    bucket_name: ${aws_s3_bucket.csye6225-s3-bucket.bucket}" >> /tmp/config.yaml
               echo "  cloudwatch:" >> /tmp/config.yaml
               echo "    push_interval: 30" >> /tmp/config.yaml
               echo "    buffer_size: 500" >> /tmp/config.yaml
@@ -69,9 +74,14 @@ resource "aws_launch_template" "csye6225-webapp-launch-template" {
               echo "server:" >> /tmp/config.yaml
               echo "  port: 8081" >> /tmp/config.yaml
               echo "" >> /tmp/config.yaml
+              echo "auth:" >> /tmp/config.yaml
+              echo "  verify_email_expiration_time: 60" >> /tmp/config.yaml
+              echo "  verification_email_topic_arn: ${aws_sns_topic.csye6225_user_signup_topic.arn}" >> /tmp/config.yaml
+              echo "" >> /tmp/config.yaml
               echo "aws:" >> /tmp/config.yaml
               echo "  region: ${var.region}" >> /tmp/config.yaml
-              echo "  bucket_name: ${aws_s3_bucket.csye6225-s3-bucket.bucket}" >> /tmp/config.yaml
+              echo "  s3:" >> /tmp/config.yaml
+              echo "    bucket_name: ${aws_s3_bucket.csye6225-s3-bucket.bucket}" >> /tmp/config.yaml
               echo "  cloudwatch:" >> /tmp/config.yaml
               echo "    push_interval: 30" >> /tmp/config.yaml
               echo "    buffer_size: 500" >> /tmp/config.yaml
