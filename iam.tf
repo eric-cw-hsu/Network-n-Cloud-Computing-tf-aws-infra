@@ -84,7 +84,10 @@ resource "aws_iam_policy" "kms_policy" {
           "kms:DescribeKey"
         ],
         "Resource" : [
-          aws_kms_key.csye6225-s3-bucket-kms-key.arn
+          aws_kms_key.s3_key.arn,
+          aws_kms_key.ec2_key.arn,
+          aws_kms_key.rds_key.arn,
+          aws_kms_key.secrets_key.arn
         ]
       }
     ]
@@ -94,6 +97,31 @@ resource "aws_iam_policy" "kms_policy" {
 resource "aws_iam_role_policy_attachment" "attach_kms_policy" {
   role       = aws_iam_role.webapp_role.name
   policy_arn = aws_iam_policy.kms_policy.arn
+}
+
+resource "aws_iam_policy" "secret_manager_db_policy" {
+  name = "secret_manager_db_policy"
+
+  policy = jsonencode({
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Effect" : "Allow",
+        "Action" : [
+          "secretsmanager:GetSecretValue",
+          "secretsmanager:DescribeSecret"
+        ],
+        "Resource" : [
+          aws_secretsmanager_secret.db_password.arn
+        ]
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "attach_secret_manager_policy" {
+  role       = aws_iam_role.webapp_role.name
+  policy_arn = aws_iam_policy.secret_manager_db_policy.arn
 }
 
 resource "aws_iam_instance_profile" "csye6225_instance_profile" {
@@ -120,6 +148,55 @@ resource "aws_iam_role" "csye6225_lambda_exec_role" {
 EOF
 }
 
+resource "aws_iam_policy" "secret_manager_email_policy" {
+  name = "secret_manager_email_policy"
+
+  policy = jsonencode({
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Effect" : "Allow",
+        "Action" : [
+          "secretsmanager:GetSecretValue",
+          "secretsmanager:DescribeSecret"
+        ],
+        "Resource" : [
+          aws_secretsmanager_secret.email_service_credentials.arn
+        ]
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "attach_secret_manager_email_policy" {
+  role       = aws_iam_role.csye6225_lambda_exec_role.name
+  policy_arn = aws_iam_policy.secret_manager_email_policy.arn
+}
+
+resource "aws_iam_policy" "lambda_kms_policy" {
+  name = "lambda_kms_policy"
+
+  policy = jsonencode({
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Effect" : "Allow",
+        "Action" : [
+          "kms:Decrypt"
+        ],
+        "Resource" : [
+          aws_kms_key.secrets_key.arn
+        ]
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "lambda_kms_policy_attachment" {
+  role       = aws_iam_role.csye6225_lambda_exec_role.name
+  policy_arn = aws_iam_policy.lambda_kms_policy.arn
+}
+
 resource "aws_iam_role_policy_attachment" "lambda_sns_rds_access" {
   role       = aws_iam_role.csye6225_lambda_exec_role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
@@ -136,7 +213,7 @@ resource "aws_iam_policy" "sns_publish_policy" {
         "Action" : [
           "sns:Publish"
         ],
-        "Resource" : "*"
+        "Resource" : "${aws_sns_topic.csye6225_user_signup_topic.arn}"
       }
     ]
   })

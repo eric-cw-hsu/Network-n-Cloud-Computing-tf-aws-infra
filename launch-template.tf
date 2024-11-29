@@ -20,6 +20,8 @@ resource "aws_launch_template" "csye6225-webapp-launch-template" {
       volume_size           = 25
       volume_type           = "gp2"
       delete_on_termination = true
+      encrypted             = true
+      kms_key_id            = aws_kms_key.ec2_key.arn
     }
   }
 
@@ -27,6 +29,13 @@ resource "aws_launch_template" "csye6225-webapp-launch-template" {
 
   user_data = base64encode(<<-EOF
               #!/bin/bash
+              sudo apt install unzip -y
+              curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+              unzip awscliv2.zip
+              sudo ./aws/install
+
+              DB_PASSWORD=$(aws secretsmanager get-secret-value --secret-id ${aws_secretsmanager_secret.db_password.name} --query SecretString --output text | jq -r '.password')
+
               touch /tmp/config.yaml
               echo "name: \"Webapp\"" > /tmp/config.yaml
               echo "environment: \"production\"" >> /tmp/config.yaml
@@ -35,7 +44,7 @@ resource "aws_launch_template" "csye6225-webapp-launch-template" {
               echo "  host: ${aws_db_instance.csye6225-postgresql.address}" >> /tmp/config.yaml
               echo "  port: 5432" >> /tmp/config.yaml
               echo "  username: ${aws_db_instance.csye6225-postgresql.username}" >> /tmp/config.yaml
-              echo "  password: ${aws_db_instance.csye6225-postgresql.password}" >> /tmp/config.yaml
+              echo "  password: $DB_PASSWORD" >> /tmp/config.yaml
               echo "  name: ${aws_db_instance.csye6225-postgresql.db_name}" >> /tmp/config.yaml
               echo "  max_open_connections: 14" >> /tmp/config.yaml
               echo "  max_idle_connections: 7" >> /tmp/config.yaml
@@ -66,7 +75,7 @@ resource "aws_launch_template" "csye6225-webapp-launch-template" {
               echo "  host: ${aws_db_instance.csye6225-postgresql.address}" >> /tmp/config.yaml
               echo "  port: 5432" >> /tmp/config.yaml
               echo "  username: ${aws_db_instance.csye6225-postgresql.username}" >> /tmp/config.yaml
-              echo "  password: ${aws_db_instance.csye6225-postgresql.password}" >> /tmp/config.yaml
+              echo "  password: $DB_PASSWORD" >> /tmp/config.yaml
               echo "  name: ${aws_db_instance.csye6225-postgresql.db_name}" >> /tmp/config.yaml
               echo "  max_open_connections: 4" >> /tmp/config.yaml
               echo "  max_idle_connections: 2" >> /tmp/config.yaml

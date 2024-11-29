@@ -32,10 +32,12 @@ resource "aws_lb_target_group" "csye6225-lb-webapp-tg" {
   }
 }
 
-resource "aws_lb_listener" "csye6225-lb-webapp-listener" {
+resource "aws_lb_listener" "csye6225-lb-webapp-listener-https" {
   load_balancer_arn = aws_lb.csye6225-webapp-lb.arn
-  port              = 80
-  protocol          = "HTTP"
+  port              = 443
+  protocol          = "HTTPS"
+  ssl_policy        = "ELBSecurityPolicy-TLS13-1-2-2021-06"
+  certificate_arn   = var.certificate_arn
 
   default_action {
     type             = "forward"

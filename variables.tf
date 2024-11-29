@@ -37,11 +37,6 @@ variable "database_instance_class" {
   default     = "db.t4g.micro"
 }
 
-variable "database_password" {
-  type        = string
-  description = "The password for the database"
-}
-
 variable "database_max_connections" {
   type        = number
   description = "The maximum number of connections to the database"
@@ -89,4 +84,8 @@ variable "email_sender_address" {
 
 variable "email_sender_name" {
   description = "Email Sender Name"
+}
+
+variable "certificate_arn" {
+  description = "ARN of the SSL certificate"
 }
