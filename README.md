@@ -10,7 +10,6 @@ vpc_cidr      =
 subnet_number = 
 region        =
 ami_id        =
-database_password = 
 certificate_arn   =
 sendgrid_api_key  =
 email_sender_address  =

@@ -25,7 +25,7 @@ output "aws_s3_bucket_id" {
   value       = aws_s3_bucket.csye6225-s3-bucket.id
 }
 
-output "aws_s3_bucket-kms-key-arn" {
-  description = "The ARN of the KMS key"
-  value       = aws_kms_key.csye6225-s3-bucket-kms-key.arn
+output "aws_account_arn" {
+  description = "The ARN of the AWS account"
+  value       = data.aws_caller_identity.current.arn
 }
