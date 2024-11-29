@@ -213,7 +213,7 @@ resource "aws_iam_policy" "sns_publish_policy" {
         "Action" : [
           "sns:Publish"
         ],
-        "Resource" : "*"
+        "Resource" : "${aws_sns_topic.csye6225_user_signup_topic.arn}"
       }
     ]
   })
