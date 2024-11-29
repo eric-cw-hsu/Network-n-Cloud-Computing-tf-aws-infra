@@ -8,10 +8,11 @@ resource "aws_lambda_function" "csye6225_send_verification_email" {
 
   environment {
     variables = {
-      SENDGRID_API_KEY  = var.sendgrid_api_key
-      WEBAPP_HOSTNAME   = "http://${var.domain_name}"
-      EMAIL_SENDER_ADDR = var.email_sender_address
-      EMAIL_SENDER_NAME = var.email_sender_name
+      SECRET_ARN = aws_secretsmanager_secret.email_service_credentials.arn
     }
   }
+
+  depends_on = [
+    aws_secretsmanager_secret.email_service_credentials
+  ]
 }
