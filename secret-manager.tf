@@ -7,7 +7,7 @@ resource "random_password" "database_password" {
 }
 
 resource "aws_secretsmanager_secret" "db_password" {
-  name        = "database-password"
+  name        = "database-password-${formatdate("YYYY-MM-DD-hh-mm", timestamp())}"
   description = "Database password for RDS instance"
   kms_key_id  = aws_kms_key.secrets_key.arn
 }
@@ -18,7 +18,7 @@ resource "aws_secretsmanager_secret_version" "db_password_version" {
 }
 
 resource "aws_secretsmanager_secret" "email_service_credentials" {
-  name        = "lambda-email-service-credentials"
+  name        = "lambda-email-service-credentials-${formatdate("YYYY-MM-DD-hh-mm", timestamp())}"
   description = "Credentials for email service"
   kms_key_id  = aws_kms_key.secrets_key.arn
 }
